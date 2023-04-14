@@ -1,23 +1,38 @@
 package com.stepdefinition;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class StepDefinition {
+	WebDriver driver;
 	@Given("User launch Adactinhotelapp in web apllication")
 	public void user_launch_Adactinhotelapp_in_web_apllication() {
-
+		WebDriverManager.chromedriver().setup();
+		ChromeOptions ops=new ChromeOptions();
+		ops.addArguments("--remote-allow-origins=*");
+		driver=new ChromeDriver(ops);
+		driver.get("https://adactinhotelapp.com/");
 	}
 
 	@Then("User verify Login page is displayed")
 	public void user_verify_Login_page_is_displayed() {
-
+		String currentUrl = driver.getCurrentUrl();
+		System.out.println(currentUrl);
+		boolean text = currentUrl.contains("adactinhotelapp");
+		System.out.println(text);
 	}
 
 	@When("User enter valid username and valid password")
 	public void user_enter_valid_username_and_valid_password() {
-
+		driver.findElement(By.id("username")).sendKeys("PunithaAB");
+		driver.findElement(By.id("password")).sendKeys("2JV79N");
 	}
 
 	@When("User click Login Button")
